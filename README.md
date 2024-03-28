@@ -1,5 +1,10 @@
 # Mowojang-API NPM Wrapper
 
+![NPM Version](https://img.shields.io/npm/v/mowojang?label=NPM)
+![NPM Bundle Size](https://img.shields.io/bundlephobia/min/mowojang?label=Bundle%20Size)
+![NPM Downloads](https://img.shields.io/npm/dw/mowojang?label=Downloads)
+![NPM License](https://img.shields.io/npm/l/mowojang?label=License)
+
 > [!IMPORTANT]
 > This is not an official Wrapper for the [Mowojang-API](https://mowojang.matdoes.dev/)!
 
