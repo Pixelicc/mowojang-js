@@ -1,0 +1,25 @@
+{
+  "name": "mowojang",
+  "version": "0.0.1",
+  "description": "A simple JavaScript and TypeScript compatible NPM Wrapper for the Mowojang-API.",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm tsc"
+  },
+  "keywords": [
+    "Minecraft",
+    "Mowojang",
+    "Wrapper",
+    "API"
+  ],
+  "author": "Pixelic",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.3"
+  }
+}
