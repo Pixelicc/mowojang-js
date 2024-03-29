@@ -6,7 +6,8 @@
   "types": "dist/src/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "pnpm tsc"
+    "build": "pnpm tsc",
+    "test": "pnpm mocha"
   },
   "keywords": [
     "Minecraft",
@@ -20,6 +21,7 @@
     "axios": "^1.6.8"
   },
   "devDependencies": {
+    "mocha": "^10.4.0",
     "typescript": "^5.4.3"
   }
 }

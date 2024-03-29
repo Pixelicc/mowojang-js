@@ -23,7 +23,7 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 - `getUUID()`: Converts Username to UUID
 - `getUsername()`: Converts UUID to Username
 - `getSkin()`: Returns the Skin the specified Player is currently wearing
-- `getcape()`: Returns the Cape the specified Player is currently wearing
+- `getCape()`: Returns the Cape the specified Player is currently wearing
 - `getPlayer()`: Retrieve full Player Data by UUID or Username
 - `getPlayers()`: Retrieve full Player Data of multiple Players by UUID or Username
 - `getPlayerSession()`: Retrieve Player Session Data by UUID or Username
