@@ -1,6 +1,6 @@
 import axios from "axios";
 import PackageJSON from "../package.json" assert { type: "json" };
-import { Player, Options, Responses } from "../types/index.js";
+import { Player, Options, MowojangPlayer, MowojangPlayerSession, MowojangPlayerSessionProfileActions } from "../types/index.js";
 import { dashUUID, undashUUID } from "./formatters.js";
 import { validateUUID, validateUsername, validatePlayer, validateArray } from "./validators.js";
 
@@ -14,48 +14,78 @@ const axiosInstance = axios.create({
   },
 });
 
-const getUUID = async (username: string, options?: Options) => {
-  if (validateUsername(username)) {
-    return await axiosInstance
-      .get(`/${username}`, { timeout: options?.timeout })
-      .then((res) => {
-        return res.data.id as Responses.Player["id"];
-      })
-      .catch((err) => {
-        if (err?.response?.status === 404) {
-          throw new Error("[Mowojang] Player not Found");
-        }
-        throw new Error("[Mowojang] Unknown Error: " + String(err));
-      });
+/**
+ * Simple Wrapper for the getPlayer Function that soley converts Username to its UUID.
+ */
+const getUUID = async (username: string, options?: Options): Promise<string> => (await getPlayer(username, options)).UUID;
+/**
+ * Simple Wrapper for the getPlayer Function that soley converts UUID to its Username.
+ */
+const getUsername = async (UUID: string, options?: Options): Promise<string> => (await getPlayer(UUID, options)).username;
+
+/**
+ * Simple Wrapper for the getPlayerSession Function that soley returns the Skin Data. This Function also requests the Skin Data and returns it in a Buffer.
+ *
+ * @param player The normal Mojang-API only allows queries by UUID so keep in mind that passing a Username here will result in an additional request to convert it to its UUID
+ */
+
+const getSkin = async (player: Player, options?: Options): Promise<null | { URL: string; hash: string; metadata: { slim: boolean }; buffer: Buffer }> => {
+  if (validatePlayer(player)) {
+    const session = await getPlayerSession(player, options);
+
+    try {
+      if (session.skin) {
+        const buffer = Buffer.from((await axiosInstance.get(session.skin.URL, { responseType: "arraybuffer" })).data, "base64");
+        return {
+          ...session.skin,
+          buffer,
+        };
+      }
+      return null;
+    } catch (err) {
+      throw new Error("[Mowojang] Unknown Error: " + String(err));
+    }
   } else {
-    throw new Error("[Mowojang] Invalid Username");
+    throw new Error("[Mowojang] Invalid UUID or Username");
   }
 };
 
-const getUsername = async (UUID: string, options?: Options) => {
-  if (validateUUID(UUID)) {
-    return await axiosInstance
-      .get(`/${UUID}`, { timeout: options?.timeout })
-      .then((res) => {
-        return res.data.name as Responses.Player["name"];
-      })
-      .catch((err) => {
-        if (err?.response?.status === 404) {
-          throw new Error("[Mowojang] Player not Found");
-        }
-        throw new Error("[Mowojang] Unknown Error: " + String(err));
-      });
+/**
+ * Simple Wrapper for the getPlayerSession Function that soley returns the Cape Data. This Function also requests the Cape Data and returns it in a Buffer.
+ *
+ * @param player The normal Mojang-API only allows queries by UUID so keep in mind that passing a Username here will result in an additional request to convert it to its UUID
+ */
+
+const getCape = async (player: Player, options?: Options): Promise<null | { URL: string; hash: string; buffer: Buffer }> => {
+  if (validatePlayer(player)) {
+    const session = await getPlayerSession(player, options);
+
+    try {
+      if (session.cape) {
+        const buffer = Buffer.from((await axiosInstance.get(session.cape.URL, { responseType: "arraybuffer" })).data, "base64");
+        return {
+          ...session.cape,
+          buffer,
+        };
+      }
+      return null;
+    } catch (err) {
+      throw new Error("[Mowojang] Unknown Error: " + String(err));
+    }
   } else {
-    throw new Error("[Mowojang] Invalid UUID");
+    throw new Error("[Mowojang] Invalid UUID or Username");
   }
 };
 
-const getPlayer = async (player: Player, options?: Options) => {
+const getPlayer = async (player: Player, options?: Options): Promise<{ UUID: string; username: string }> => {
   if (validatePlayer(player)) {
     return await axiosInstance
-      .get(`/${player}`, { timeout: options?.timeout })
+      .get<MowojangPlayer>(`/${player}`, { timeout: options?.timeout })
       .then((res) => {
-        return res.data as Responses.Player;
+        return {
+          UUID: res.data.id,
+          username: res.data.name,
+        };
       })
       .catch((err) => {
         if (err?.response?.status === 404) {
@@ -68,12 +98,17 @@ const getPlayer = async (player: Player, options?: Options) => {
   }
 };
 
-const getPlayers = async (players: Player[], options?: Options) => {
+const getPlayers = async (players: Player[], options?: Options): Promise<{ UUID: string; username: string }[]> => {
   if (validateArray(players, validatePlayer)) {
     return await axiosInstance
-      .post("/", players, { timeout: options?.timeout })
+      .post<MowojangPlayer[]>("/", players, { timeout: options?.timeout })
       .then((res) => {
-        return res.data as Responses.Player[];
+        return res.data.map((player) => {
+          return {
+            UUID: player.id,
+            username: player.name,
+          };
+        });
       })
       .catch((err) => {
         if (err?.response?.status === 404) {
@@ -89,12 +124,57 @@ const getPlayers = async (players: Player[], options?: Options) => {
 /**
  * @param player The normal Mojang-API only allows queries by UUID so keep in mind that passing a Username here will result in an additional request to convert it to its UUID
  */
-const getPlayerSession = async (player: Player, options?: Options) => {
+const getPlayerSession = async (
+  player: Player,
+  options?: Options
+): Promise<{
+  UUID: string;
+  username: string;
+  skin: null | {
+    URL: string;
+    hash: string;
+    metadata: {
+      slim: boolean;
+    };
+  };
+  cape: null | {
+    URL: string;
+    hash: string;
+  };
+  actions: MowojangPlayerSessionProfileActions;
+}> => {
   if (validatePlayer(player)) {
     return await axiosInstance
-      .get(`/session/minecraft/profile/${validateUUID(player) ? player : await getUUID(player)}`, { timeout: options?.timeout })
+      .get<MowojangPlayerSession>(`/session/minecraft/profile/${validateUUID(player) ? player : await getUUID(player)}`, { timeout: options?.timeout })
       .then((res) => {
-        return res.data as Responses.PlayerSession;
+        const encodedTextures = res.data.properties.find((property) => property.name === "textures")?.value;
+        let skin = null;
+        let cape = null;
+        if (encodedTextures) {
+          const decodedTextures = JSON.parse(Buffer.from(encodedTextures, "base64").toString()).textures;
+          if (decodedTextures.SKIN) {
+            skin = {
+              URL: decodedTextures?.SKIN.url,
+              hash: decodedTextures?.SKIN.url.split("/").at(-1),
+              metadata: {
+                slim: decodedTextures?.SKIN?.metadata?.model === "slim",
+              },
+            };
+          }
+          if (decodedTextures.CAPE) {
+            cape = {
+              URL: decodedTextures?.CAPE.url,
+              hash: decodedTextures?.CAPE.url.split("/").at(-1),
+            };
+          }
+        }
+        return {
+          UUID: res.data.id,
+          username: res.data.name,
+          skin,
+          cape,
+          actions: res.data.profileActions,
+        };
       })
       .catch((err) => {
         if (err?.response?.status === 404) {
@@ -110,6 +190,8 @@ const getPlayerSession = async (player: Player, options?: Options) => {
 export default {
   getUUID,
   getUsername,
+  getSkin,
+  getCape,
   getPlayer,
   getPlayers,
   getPlayerSession,

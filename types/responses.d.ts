@@ -1,4 +1,4 @@
-export interface Player {
+export interface MowojangPlayer {
   /**
    * Player's Minecraft UUID (Undashed)
    */
@@ -9,11 +9,20 @@ export interface Player {
   name: string;
 }
 
-export interface PlayerSessionProperty {
+export type MowojangPlayerSessionProfileActions = ("FORCED_NAME_CHANGE" | "USING_BANNED_SKIN")[];
+export interface MowojangPlayerSessionProperty {
   name: string;
   value: string;
 }
-export interface PlayerSession extends Player {
-  profileActions: unknown[];
-  properties: PlayerSessionProperty[];
+export interface MowojangPlayerSessionTextureProperty {
+  name: "textures";
+  /**
+   * Base64 Encoded String containing all Textures
+   */
+  value: string;
+}
+export type MowojangPlayerSessionProperties = (MowojangPlayerSessionTextureProperty | MowojangPlayerSessionProperty)[];
+export interface MowojangPlayerSession extends MowojangPlayer {
+  profileActions: MowojangPlayerSessionProfileActions;
+  properties: MowojangPlayerSessionProperties;
 }
