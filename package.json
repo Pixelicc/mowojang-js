@@ -9,6 +9,10 @@
     "build": "pnpm tsc",
     "test": "pnpm mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pixelicc/mowojang-api-wrapper.git"
+  },
   "keywords": [
     "Minecraft",
     "Mowojang",
