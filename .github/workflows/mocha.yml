@@ -11,12 +11,13 @@ jobs:
       matrix:
         node-version: [18.x, 19.x, 20.x, 21.x]
     steps:
-      - uses: pnpm/action-setup@v2
+      - uses: actions/checkout@v4
+      - name: Use PNPM Package Manager
+        uses: pnpm/action-setup@v2
         with:
           version: 8
-      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - run: pnpm install
