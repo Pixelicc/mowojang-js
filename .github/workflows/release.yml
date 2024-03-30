@@ -1,25 +1,24 @@
-name: Node.js CI (Mocha Testing)
-
+name: Publish Package to NPM
 on:
-  push:
-  pull_request:
+  release:
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 19.x, 20.x, 21.x]
     steps:
       - uses: actions/checkout@v4
       - name: Use PNPM Package Manager
         uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "21.x"
+          registry-url: "https://registry.npmjs.org"
       - run: pnpm install
       - run: pnpm run build
-      - run: pnpm run test
+      - run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
