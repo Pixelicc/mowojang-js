@@ -1,18 +1,25 @@
 import axios from "axios";
+import { setupCache } from "axios-cache-interceptor";
 import PackageJSON from "../package.json" assert { type: "json" };
 import { Player, Options, MowojangPlayer, MowojangPlayerSession, MowojangPlayerSessionProfileActions } from "../types/index.js";
 import { dashUUID, undashUUID } from "./formatters.js";
 import { validateUUID, validateUsername, validatePlayer, validateArray } from "./validators.js";
 
-const axiosInstance = axios.create({
-  baseURL: "https://mowojang.matdoes.dev/",
-  timeout: 10000,
-  maxRedirects: 0,
-  headers: {
-    "User-Agent": `axios/${axios.VERSION} mowojang/${PackageJSON.version}`,
-    Accept: "application/json",
-  },
-});
+const axiosInstance = setupCache(
+  axios.create({
+    baseURL: "https://mowojang.matdoes.dev/",
+    timeout: 10000,
+    maxRedirects: 0,
+    headers: {
+      "User-Agent": `axios/${axios.VERSION} mowojang/${PackageJSON.version}`,
+      Accept: "application/json",
+    },
+  }),
+  {
+    methods: ["get", "post"],
+    cacheTakeover: false,
+  }
+);
 
 /**
  * Simple Wrapper for the getPlayer Function that soley converts Username to its UUID.
@@ -35,7 +42,7 @@ const getSkin = async (player: Player, options?: Options): Promise<null | { URL:
 
     try {
       if (session.skin) {
-        const buffer = Buffer.from((await axiosInstance.get(session.skin.URL, { responseType: "arraybuffer" })).data, "base64");
+        const buffer = Buffer.from((await axiosInstance.get(session.skin.URL, { responseType: "arraybuffer", cache: options ? (options.cache === true || options.cache === undefined ? { ttl: options.cacheTTL, override: options.cacheOverride } : false) : undefined })).data, "base64");
         return {
           ...session.skin,
           buffer,
@@ -62,7 +69,7 @@ const getCape = async (player: Player, options?: Options): Promise<null | { URL:
 
     try {
       if (session.cape) {
-        const buffer = Buffer.from((await axiosInstance.get(session.cape.URL, { responseType: "arraybuffer" })).data, "base64");
+        const buffer = Buffer.from((await axiosInstance.get(session.cape.URL, { responseType: "arraybuffer", cache: options ? (options.cache === true || options.cache === undefined ? { ttl: options.cacheTTL, override: options.cacheOverride } : false) : undefined })).data, "base64");
         return {
           ...session.cape,
           buffer,
@@ -80,7 +87,7 @@ const getCape = async (player: Player, options?: Options): Promise<null | { URL:
 const getPlayer = async (player: Player, options?: Options): Promise<{ UUID: string; username: string }> => {
   if (validatePlayer(player)) {
     return await axiosInstance
-      .get<MowojangPlayer>(`/${player}`, { timeout: options?.timeout })
+      .get<MowojangPlayer>(`/${player}`, { timeout: options?.timeout, cache: options ? (options.cache === true || options.cache === undefined ? { ttl: options.cacheTTL, override: options.cacheOverride } : false) : undefined })
       .then((res) => {
         return {
           UUID: res.data.id,
@@ -101,7 +108,7 @@ const getPlayer = async (player: Player, options?: Options): Promise<{ UUID: str
 const getPlayers = async (players: Player[], options?: Options): Promise<{ UUID: string; username: string }[]> => {
   if (validateArray(players, validatePlayer)) {
     return await axiosInstance
-      .post<MowojangPlayer[]>("/", players, { timeout: options?.timeout })
+      .post<MowojangPlayer[]>("/", players, { timeout: options?.timeout, cache: options ? (options.cache === true || options.cache === undefined ? { ttl: options.cacheTTL, override: options.cacheOverride } : false) : undefined })
       .then((res) => {
         return res.data.map((player) => {
           return {
@@ -145,7 +152,7 @@ const getPlayerSession = async (
 }> => {
   if (validatePlayer(player)) {
     return await axiosInstance
-      .get<MowojangPlayerSession>(`/session/minecraft/profile/${validateUUID(player) ? player : await getUUID(player)}`, { timeout: options?.timeout })
+      .get<MowojangPlayerSession>(`/session/minecraft/profile/${validateUUID(player) ? player : await getUUID(player)}`, { timeout: options?.timeout, cache: options ? (options.cache === true || options.cache === undefined ? { ttl: options.cacheTTL, override: options.cacheOverride } : false) : undefined })
       .then((res) => {
         const encodedTextures = res.data.properties.find((property) => property.name === "textures")?.value;
         let skin = null;
