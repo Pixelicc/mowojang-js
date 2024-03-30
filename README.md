@@ -27,7 +27,7 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 - `getPlayers()`: Retrieve full Player Data of multiple Players by UUID or Username
 - `getPlayerSession()`: Retrieve Player Session Data by UUID or Username
 
-All above Functions accept an second Argument contianing optional Options. There `timeout`, `cache`, `cacheTTL` and `cacheOverride` can be changed. By default all Requests will be cached in `Memory` for `5 Minutes`.
+All above Functions accept an second Argument containing optional Parameters. There `timeout`, `cache`, `cacheTTL` and `cacheOverride` can be changed. By default all Requests will be cached in `Memory` for `5 Minutes`.
 
 ## 🗃️ Utility Functions
 
