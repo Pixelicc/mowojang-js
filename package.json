@@ -1,6 +1,6 @@
 {
   "name": "mowojang",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple JavaScript and TypeScript compatible NPM Wrapper for the Mowojang-API.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
