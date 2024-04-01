@@ -1,68 +1,68 @@
 import Mowojang from "../dist/src/index.js";
 import * as assert from "node:assert";
 
-describe("Utility Functions", () => {
-  describe("#dashUUID()", () => {
-    it("Should add dashes to an UUIDv4 String", () => {
+describe("Utility Functions", function () {
+  describe("#dashUUID()", function () {
+    it("Should add dashes to an UUIDv4 String", function () {
       assert.strictEqual(Mowojang.dashUUID("14727faefbdc4aff848cd2713eb9939e"), "14727fae-fbdc-4aff-848c-d2713eb9939e");
     });
   });
-  describe("#undashUUID()", () => {
-    it("Should remove all dashes from an UUIDv4 String", () => {
+  describe("#undashUUID()", function () {
+    it("Should remove all dashes from an UUIDv4 String", function () {
       assert.strictEqual(Mowojang.undashUUID("14727fae-fbdc-4aff-848c-d2713eb9939e"), "14727faefbdc4aff848cd2713eb9939e");
     });
   });
 });
 
-describe("Validator Functions", () => {
-  describe("#validateUUID()", () => {
-    it("Should be true on an valid UUIDv4 String", () => {
+describe("Validator Functions", function () {
+  describe("#validateUUID()", function () {
+    it("Should be true on an valid UUIDv4 String", function () {
       assert.strictEqual(Mowojang.validateUUID("14727fae-fbdc-4aff-848c-d2713eb9939e"), true);
     });
-    it("Should be false on an invalid UUIDv4 String", () => {
+    it("Should be false on an invalid UUIDv4 String", function () {
       assert.strictEqual(Mowojang.validateUUID("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"), false);
     });
   });
-  describe("#validateUsername()", () => {
-    it("Should be true on an valid Minecraft Username", () => {
+  describe("#validateUsername()", function () {
+    it("Should be true on an valid Minecraft Username", function () {
       assert.strictEqual(Mowojang.validateUsername("Pixelic"), true);
     });
-    it("Should be false on an invalid Minecraft Username", () => {
+    it("Should be false on an invalid Minecraft Username", function () {
       assert.strictEqual(Mowojang.validateUsername("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername"), false);
     });
   });
-  describe("#validatePlayer()", () => {
-    it("Should be true on an valid UUIDv4 String", () => {
+  describe("#validatePlayer()", function () {
+    it("Should be true on an valid UUIDv4 String", function () {
       assert.strictEqual(Mowojang.validatePlayer("14727fae-fbdc-4aff-848c-d2713eb9939e"), true);
     });
-    it("Should be false on an invalid UUIDv4 String", () => {
+    it("Should be false on an invalid UUIDv4 String", function () {
       assert.strictEqual(Mowojang.validatePlayer("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"), false);
     });
-    it("Should be true on an valid Minecraft Username", () => {
+    it("Should be true on an valid Minecraft Username", function () {
       assert.strictEqual(Mowojang.validatePlayer("Pixelic"), true);
     });
-    it("Should be false on an invalid Minecraft Username", () => {
+    it("Should be false on an invalid Minecraft Username", function () {
       assert.strictEqual(Mowojang.validatePlayer("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername"), false);
     });
   });
 });
 
-describe("Functions", () => {
+describe("Functions", function () {
   this.timeout(10000);
-  describe("#getUUID", () => {
-    it("Should convert an Minecraft Username to its UUIDv4 String", async () => {
+  describe("#getUUID", function () {
+    it("Should convert an Minecraft Username to its UUIDv4 String", async function () {
       const UUID = await Mowojang.getUUID("Pixelic");
       assert.strictEqual(UUID, "14727faefbdc4aff848cd2713eb9939e");
     });
   });
-  describe("#getUsername", () => {
-    it("Should convert an UUIDv4 String to its Minecraft Username", async () => {
+  describe("#getUsername", function () {
+    it("Should convert an UUIDv4 String to its Minecraft Username", async function () {
       const username = await Mowojang.getUsername("14727faefbdc4aff848cd2713eb9939e");
       assert.strictEqual(username, "Pixelic");
     });
   });
-  describe("#getSkin", async () => {
-    it("Should return an Skin Object", async () => {
+  describe("#getSkin", function () {
+    it("Should return an Skin Object", async function () {
       const skin = await Mowojang.getSkin("Pixic");
       assert.strictEqual(skin.URL, "http://textures.minecraft.net/texture/56dab0d218f41af5812c4b4692719ab3b2f28ef668338f0753336c79acb6b5fa");
       assert.strictEqual(skin.hash, "56dab0d218f41af5812c4b4692719ab3b2f28ef668338f0753336c79acb6b5fa");
@@ -73,8 +73,8 @@ describe("Functions", () => {
       assert.deepStrictEqual(skin.metadata, { slim: true });
     });
   });
-  describe("#getCape", async () => {
-    it("Should return an Cape Object", async () => {
+  describe("#getCape", function () {
+    it("Should return an Cape Object", async function () {
       const cape = await Mowojang.getCape("Pixic");
       assert.strictEqual(cape.URL, "http://textures.minecraft.net/texture/2340c0e03dd24a11b15a8b33c2a7e9e32abb2051b2481d0ba7defd635ca7a933");
       assert.strictEqual(cape.hash, "2340c0e03dd24a11b15a8b33c2a7e9e32abb2051b2481d0ba7defd635ca7a933");
@@ -84,15 +84,15 @@ describe("Functions", () => {
       );
     });
   });
-  describe("#getPlayer", () => {
-    it("Should return an Player Object", async () => {
+  describe("#getPlayer", function () {
+    it("Should return an Player Object", async function () {
       const player = await Mowojang.getPlayer("Pixelic");
       assert.strictEqual(player.UUID, "14727faefbdc4aff848cd2713eb9939e");
       assert.strictEqual(player.username, "Pixelic");
     });
   });
-  describe("#getPlayers", () => {
-    it("Should return an Array of Player Objects", async () => {
+  describe("#getPlayers", function () {
+    it("Should return an Array of Player Objects", async function () {
       const players = await Mowojang.getPlayers(["Pixelic", "Pixic"]);
       assert.strictEqual(Array.isArray(players), true);
       assert.strictEqual(players[0].UUID, "14727faefbdc4aff848cd2713eb9939e");
@@ -101,8 +101,8 @@ describe("Functions", () => {
       assert.strictEqual(players[1].username, "Pixic");
     });
   });
-  describe("#getPlayerSession", () => {
-    it("Should return an Player Session Object", async () => {
+  describe("#getPlayerSession", function () {
+    it("Should return an Player Session Object", async function () {
       const playerSession = await Mowojang.getPlayerSession("Pixic");
       assert.strictEqual(playerSession.UUID, "03197f1eabd74794b8668f513db2d2f0");
       assert.strictEqual(playerSession.username, "Pixic");
