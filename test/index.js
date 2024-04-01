@@ -48,6 +48,7 @@ describe("Validator Functions", () => {
 });
 
 describe("Functions", () => {
+  this.timeout = 10000;
   describe("#getUUID", () => {
     it("Should convert an Minecraft Username to its UUIDv4 String", async () => {
       const UUID = await Mowojang.getUUID("Pixelic");
