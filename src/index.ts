@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
+import { buildMemoryStorage, setupCache } from "axios-cache-interceptor";
 import PackageJSON from "../package.json" assert { type: "json" };
 import { Player, Options, MowojangPlayer, MowojangPlayerSession, MowojangPlayerSessionProfileActions } from "../types/index.js";
 import { dashUUID, undashUUID } from "./formatters.js";
@@ -18,6 +18,7 @@ const axiosInstance = setupCache(
   {
     methods: ["get", "post"],
     cacheTakeover: false,
+    storage: buildMemoryStorage(false, 60 * 60 * 1000),
   }
 );
 
