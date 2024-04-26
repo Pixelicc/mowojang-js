@@ -115,3 +115,7 @@ describe("Functions", function () {
     });
   });
 });
+
+after(function () {
+  setTimeout(() => process.exit(), 1000);
+});
