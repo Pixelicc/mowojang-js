@@ -1,6 +1,6 @@
 import axios from "axios";
 import { buildMemoryStorage, setupCache } from "axios-cache-interceptor";
-import PackageJSON from "../package.json" assert { type: "json" };
+import PackageJSON from "../package.json" with { type: "json" };
 import { Player, Options, MowojangPlayer, MowojangPlayerSession, MowojangPlayerSessionProfileActions } from "../types/index.js";
 import { dashUUID, undashUUID } from "./formatters.js";
 import { validateUUID, validateUsername, validatePlayer, validateArray } from "./validators.js";
