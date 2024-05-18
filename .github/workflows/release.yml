@@ -1,10 +1,11 @@
-name: Publish Package to NPM
+name: Node.js CD (NPM Publish)
+
 on:
   release:
     types: [published]
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,10 +16,10 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "21.x"
+          node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
       - run: pnpm install
-      - run: pnpm run build
+      - run: node --run build
       - run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
