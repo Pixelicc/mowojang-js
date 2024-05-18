@@ -15,7 +15,11 @@ export const validateUsername = (username: string) => {
 
 export const validatePlayer = (player: Player) => validateUUID(player) || validateUsername(player);
 
-export const validateArray = <T>(array: T[], validatorFunction: (item: T, ...params: any[]) => boolean, ...params: any[]) => {
+export const validateArray = <T>(
+  array: T[],
+  validatorFunction: (item: T, ...params: any[]) => boolean,
+  ...params: any[]
+) => {
   if (!Array.isArray(array)) return false;
   return array.every((item) => validatorFunction(item, ...params));
 };
