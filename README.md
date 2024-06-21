@@ -33,7 +33,7 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 - `getSkin()`: Returns the Skin the specified Player is currently wearing
 - `getSkinBuffer()`: Skin-Data fetched via getSkin() as a Buffer
 - `getCape()`: Returns the Cape the specified Player is currently wearing
-- `getCapeBuffer()`: Skin-Data fetched via getCape() as a Buffer
+- `getCapeBuffer()`: Cape-Data fetched via getCape() as a Buffer
 
 All above Functions accept an second Argument containing an optional config.
 Cache options can also be passed there via the cache key. All available cache options can be found [here](https://axios-cache-interceptor.js.org/config/request-specifics#cache).
