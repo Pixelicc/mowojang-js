@@ -1,6 +1,6 @@
 {
   "name": "mowojang",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple JavaScript and TypeScript compatible API Wrapper for the Mowojang-API.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -27,11 +27,11 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "axios": "^1.6.8",
-    "axios-cache-interceptor": "^1.5.2"
+    "axios": "^1.7.2",
+    "axios-cache-interceptor": "^1.5.3"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "typescript": "^5.4.5"
+    "@types/node": "^20.14.7",
+    "typescript": "^5.5.2"
   }
 }

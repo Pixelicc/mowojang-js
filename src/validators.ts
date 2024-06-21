@@ -1,5 +1,5 @@
 import { Player } from "../types/index.js";
-import { undashUUID } from "./formatters.js";
+import { undashUUID } from "./utils.js";
 
 export const validateUUID = (UUID: string) => {
   if (typeof UUID !== "string") return false;

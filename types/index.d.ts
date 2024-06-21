@@ -1,3 +1,3 @@
+export * from "./misc.js";
 export * from "./player.js";
-export * from "./options.js";
-export * from "./responses.js";
+export * from "./structures.js";
