@@ -19,8 +19,8 @@ import { undashUUID } from "./utils.js";
 export default class Client {
   private axios: AxiosCacheInstance;
 
-  constructor(clientOptions: ClientOptions) {
-    this.axios = axiosInstance(clientOptions);
+  constructor(clientOptions?: ClientOptions) {
+    this.axios = axiosInstance(clientOptions ?? {});
   }
 
   /**
