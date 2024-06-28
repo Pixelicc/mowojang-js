@@ -20,7 +20,7 @@ export default class Client {
   private axios: AxiosCacheInstance;
 
   constructor(clientOptions?: ClientOptions) {
-    this.axios = axiosInstance(clientOptions ?? {});
+    this.axios = axiosInstance(clientOptions);
   }
 
   /**
@@ -74,6 +74,10 @@ export default class Client {
     return { data: profiles.data[0], error: null };
   }
 
+  /**
+   * Simple Wrapper to only retrieve the UUID from the Player's Profile Data
+   *
+   */
   public async getUUID(username: Username, config?: MowojangRequestConfig): Promise<null | Username> {
     if (!validateUsername(username)) return null;
 
@@ -82,6 +86,10 @@ export default class Client {
     return profile.data.UUID;
   }
 
+  /**
+   * Simple Wrapper to only retrieve the Username from the Player's Profile Data
+   *
+   */
   public async getUsername(UUID: UUID, config?: MowojangRequestConfig): Promise<null | UUID> {
     if (!validateUUID(UUID)) return null;
 
