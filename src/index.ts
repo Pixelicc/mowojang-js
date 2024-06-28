@@ -7,7 +7,7 @@ export const Client = client;
 
 export const validate = {
   player: validatePlayer,
-  uuid: validateUUID,
+  UUID: validateUUID,
   username: validateUsername,
 };
 

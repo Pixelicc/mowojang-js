@@ -20,10 +20,10 @@ describe("Utility Functions", { timeout: 10000 }, function () {
 describe("Validator Functions", { timeout: 10000 }, function () {
   describe("#UUID()", function () {
     it("Should be true on an valid UUIDv4 String", function () {
-      assert.strictEqual(validate.uuid("14727fae-fbdc-4aff-848c-d2713eb9939e"), true);
+      assert.strictEqual(validate.UUID("14727fae-fbdc-4aff-848c-d2713eb9939e"), true);
     });
     it("Should be false on an invalid UUIDv4 String", function () {
-      assert.strictEqual(validate.username("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"), false);
+      assert.strictEqual(validate.UUID("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"), false);
     });
   });
   describe("#username()", function () {
