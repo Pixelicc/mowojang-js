@@ -1,4 +1,8 @@
 .github
+.vscode
+docs
 src
+types
 test
-dist/test
+.prettierignore
+.prettierrc
