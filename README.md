@@ -19,7 +19,7 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 ```
 
 > [!TIP]
-> If you plan on using this in a long-running process with frequent usage check out this guide on how to setup custom caching to prevent memory leaks.
+> If you plan on using this in a long-running process with heavy usage check out this guide on how to setup custom caching to prevent memory leaks.
 > Guide: [Custom-Caching](docs/custom-caching.md)
 
 ## 🔧 Functions / Supported Endpoints
@@ -28,11 +28,11 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 - `getProfile()`: Retrieve full Player Data by UUID or Username
 - `getSessions()`: Retrieve Player Session Data of multiple Players by UUID or Username
 - `getSession()`: Retrieve Player Session Data by UUID or Username
-- `getUUID()`: Converts Username to UUID
-- `getUsername()`: Converts UUID to Username
+- `getUUID()`: Converts a Player's Username to UUID
+- `getUsername()`: Converts a Player's UUID to Username
 - `getSkin()`: Returns the Skin the specified Player is currently wearing
 - `getSkinBuffer()`: Returns Skin Image fetched via getSkin() as a Buffer
-- `getCape()`: Returns the Cape the specified Player is currently wearing
+- `getCape()`: Returns the Cape the specified Player has currently selected
 - `getCapeBuffer()`: Returns Cape Image fetched via getCape() as a Buffer
 
 All above Functions accept an second Argument containing an optional config.
