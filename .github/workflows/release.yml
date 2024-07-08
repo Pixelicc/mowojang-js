@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
       - run: node --run build
       - run: pnpm publish --no-git-checks
         env:
