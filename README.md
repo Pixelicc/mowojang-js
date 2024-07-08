@@ -1,7 +1,7 @@
 # Mowojang-API NPM Wrapper
 
 ![NPM Version](https://img.shields.io/npm/v/mowojang?label=NPM)
-![NPM Downloads](https://img.shields.io/npm/dw/mowojang?label=Downloads)
+![NPM Downloads](https://img.shields.io/npm/dm/mowojang?label=Downloads)
 ![NPM License](https://img.shields.io/npm/l/mowojang?label=License)
 
 > [!IMPORTANT]
@@ -31,9 +31,9 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 - `getUUID()`: Converts Username to UUID
 - `getUsername()`: Converts UUID to Username
 - `getSkin()`: Returns the Skin the specified Player is currently wearing
-- `getSkinBuffer()`: Skin-Data fetched via getSkin() as a Buffer
+- `getSkinBuffer()`: Returns Skin Image fetched via getSkin() as a Buffer
 - `getCape()`: Returns the Cape the specified Player is currently wearing
-- `getCapeBuffer()`: Cape-Data fetched via getCape() as a Buffer
+- `getCapeBuffer()`: Returns Cape Image fetched via getCape() as a Buffer
 
 All above Functions accept an second Argument containing an optional config.
 Cache options can also be passed there via the cache key. All available cache options can be found [here](https://axios-cache-interceptor.js.org/config/request-specifics#cache).
