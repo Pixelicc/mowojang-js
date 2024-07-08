@@ -5,7 +5,7 @@
 ![NPM License](https://img.shields.io/npm/l/mowojang?label=License)
 
 > [!IMPORTANT]
-> This is a third party api wrapper for the [Mowojang-API](https://mowojang.matdoes.dev/)!
+> This is a third party wrapper for the [Mowojang-API](https://mowojang.matdoes.dev/)!
 
 ## ✨ Quick Start
 
