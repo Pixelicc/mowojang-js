@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AxiosCacheInstance, setupCache } from "axios-cache-interceptor";
-import PackageJSON from "../package.json" with { type: "json" };
+import PackageJSON from "../package.json";
 import { AxiosOptions } from "../types/index.js";
 
 export default (options?: AxiosOptions): AxiosCacheInstance => {
