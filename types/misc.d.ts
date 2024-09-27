@@ -11,6 +11,7 @@ export type AxiosOptions = {
 };
 
 export type MowojangRequestConfig = {
+  validate?: boolean;
   cache?: CacheRequestConfig<any, any>["cache"];
 };
 

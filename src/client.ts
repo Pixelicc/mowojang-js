@@ -33,7 +33,8 @@ export default class Client {
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile[], undefined> {
     try {
-      if (!validateArray(players, validatePlayer)) return { data: null, error: "INVALID_INPUT" };
+      if (config?.validate !== false && !validateArray(players, validatePlayer))
+        return { data: null, error: "INVALID_INPUT" };
       players = players
         .map((player) => {
           if (validateUUID(player)) return undashUUID(player);
@@ -68,7 +69,7 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile, "INVALID_PLAYER"> {
-    if (!validatePlayer(player)) return { data: null, error: "INVALID_INPUT" };
+    if (config?.validate !== false && !validatePlayer(player)) return { data: null, error: "INVALID_INPUT" };
 
     const profiles = await this.getProfiles([player], config);
     if (profiles.error) return { data: null, error: profiles.error };
@@ -81,8 +82,6 @@ export default class Client {
    *
    */
   public async getUUID(username: Username, config?: MowojangRequestConfig): Promise<null | Username> {
-    if (!validateUsername(username)) return null;
-
     const profile = await this.getProfile(username, config);
     if (profile.error) return null;
     return profile.data.UUID;
@@ -93,8 +92,6 @@ export default class Client {
    *
    */
   public async getUsername(UUID: UUID, config?: MowojangRequestConfig): Promise<null | UUID> {
-    if (!validateUUID(UUID)) return null;
-
     const profile = await this.getProfile(UUID, config);
     if (profile.error) return null;
     return profile.data.username;
@@ -110,7 +107,8 @@ export default class Client {
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangSession[], "INVALID_PLAYER"> {
     try {
-      if (!validateArray(players, validatePlayer)) return { data: null, error: "INVALID_INPUT" };
+      if (config?.validate !== false && !validateArray(players, validatePlayer))
+        return { data: null, error: "INVALID_INPUT" };
       players = players.map((player) => {
         if (validateUUID(player)) return undashUUID(player);
         return player.toLowerCase();
@@ -121,7 +119,7 @@ export default class Client {
         sessionsPromises.push(this.getSession(player, config));
       });
       const sessions = (await Promise.all(sessionsPromises))
-        .filter((session) => session.data)
+        .filter((session) => session.data !== null)
         .map((session) => session.data);
 
       return {
@@ -142,9 +140,9 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangSession, "INVALID_PLAYER"> {
-    if (!validatePlayer(player)) return { data: null, error: "INVALID_INPUT" };
+    if (config?.validate !== false && !validatePlayer(player)) return { data: null, error: "INVALID_INPUT" };
     const UUID = await this.getUUID(player);
-    if (!UUID) return { data: null, error: "INVALID_INPUT" };
+    if (!UUID) return { data: null, error: "INVALID_PLAYER" };
 
     return await this.axios
       .get(`https://mowojang.matdoes.dev/session/minecraft/profile/${UUID}`, {
