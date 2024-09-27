@@ -105,7 +105,7 @@ export default class Client {
   public async getSessions(
     players: Player[],
     config?: MowojangRequestConfig,
-  ): MowojangResponse<MowojangSession[], "INVALID_PLAYER"> {
+  ): MowojangResponse<MowojangSession[], undefined> {
     try {
       if (config?.validate !== false && !validateArray(players, validatePlayer))
         return { data: null, error: "INVALID_INPUT" };
@@ -114,8 +114,9 @@ export default class Client {
         return player.toLowerCase();
       });
 
-      const sessionsPromises: MowojangResponse<MowojangSession, "INVALID_PLAYER">[] = [];
+      const sessionsPromises: MowojangResponse<MowojangSession, undefined>[] = [];
       players.forEach((player) => {
+        // @ts-ignore
         sessionsPromises.push(this.getSession(player, config));
       });
       const sessions = (await Promise.all(sessionsPromises))
