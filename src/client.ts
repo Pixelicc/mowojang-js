@@ -34,10 +34,12 @@ export default class Client {
   ): MowojangResponse<MowojangProfile[], undefined> {
     try {
       if (!validateArray(players, validatePlayer)) return { data: null, error: "INVALID_INPUT" };
-      players = players.map((player) => {
-        if (validateUUID(player)) return undashUUID(player);
-        return player.toLowerCase();
-      });
+      players = players
+        .map((player) => {
+          if (validateUUID(player)) return undashUUID(player);
+          return player.toLowerCase();
+        })
+        .sort();
 
       const fetchResponse = await this.axios.post("https://mowojang.matdoes.dev/", players, {
         cache: config?.cache ?? { ttl: 15 * 60 * 1000 },
