@@ -58,7 +58,6 @@ All Validator Functions are exported combined as `validate.x`.
 - `pnpm install`: Installs all required dependencies
 - `pnpm build`: Runs the TypeScript compiler
 - `pnpm test`: Runs tests for all Functions
-- `pnpm publish`: Publish the Package to NPM
 
 ## 📎 Credits
 
