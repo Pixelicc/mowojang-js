@@ -27,11 +27,11 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "axios": "^1.7.2",
-    "axios-cache-interceptor": "^1.5.3"
+    "axios": "^1.7.7",
+    "axios-cache-interceptor": "^1.6.0"
   },
   "devDependencies": {
-    "@types/node": "^22.4.1",
-    "typescript": "^5.5.2"
+    "@types/node": "^22.7.3",
+    "typescript": "^5.6.2"
   }
 }
