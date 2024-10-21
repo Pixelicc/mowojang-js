@@ -13,7 +13,7 @@ importers:
         version: 1.7.7
       axios-cache-interceptor:
         specifier: ^1.6.0
-        version: 1.6.0(axios@1.7.7)
+        version: 1.6.1(axios@1.7.7)
     devDependencies:
       '@types/node':
         specifier: ^22.7.3
@@ -30,8 +30,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios-cache-interceptor@1.6.0:
-    resolution: {integrity: sha512-xuo4mZckPQmNV50bJpsMmGfpFV8SXsUWWUVKf1DXQy7t9p+6Pan9zrD3icAlCIdoYFw/ZJFKV6nUVqy8j0XCLQ==}
+  axios-cache-interceptor@1.6.1:
+    resolution: {integrity: sha512-bRzjABzkQ5JOsCrJNhwpabfQ9fV7LykgCKm0AcftXKFrxMhbruXCxak8iCBrxercv4Yb6Hkt2qBMMEWc66vMEw==}
     engines: {node: '>=12'}
     peerDependencies:
       axios: ^1
@@ -96,7 +96,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios-cache-interceptor@1.6.0(axios@1.7.7):
+  axios-cache-interceptor@1.6.1(axios@1.7.7):
     dependencies:
       axios: 1.7.7
       cache-parser: 1.2.5
