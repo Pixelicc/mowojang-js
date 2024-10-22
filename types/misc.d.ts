@@ -1,4 +1,4 @@
-import { CacheOptions, CacheRequestConfig } from "axios-cache-interceptor";
+import type { CacheOptions, CacheRequestConfig } from "axios-cache-interceptor";
 
 export type ClientOptions = {
   timeout?: number;

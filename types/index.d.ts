@@ -1,3 +1,3 @@
-export * from "./misc.js";
-export * from "./player.js";
-export * from "./structures.js";
+export type * from "./misc.d.ts";
+export type * from "./player.d.ts";
+export type * from "./structures.d.ts";

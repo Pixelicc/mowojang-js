@@ -1,7 +1,7 @@
 import { isAxiosError } from "axios";
-import { AxiosCacheInstance } from "axios-cache-interceptor";
+import type { AxiosCacheInstance } from "axios-cache-interceptor";
 import axiosInstance from "./axiosInstance.js";
-import {
+import type {
   Player,
   Username,
   UUID,
@@ -12,8 +12,8 @@ import {
   MowojangResponse,
   MowojangSession,
   MowojangSkin,
-} from "../types/index.js";
-import { validateArray, validatePlayer, validateUUID, validateUsername } from "./validators.js";
+} from "../types/index.d.ts";
+import { validateArray, validatePlayer, validateUUID } from "./validators.js";
 import { undashUUID } from "./utils.js";
 
 export default class Client {

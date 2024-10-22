@@ -1,4 +1,4 @@
-import { UUID, Username } from "./index.js";
+import type { UUID, Username } from "./index.d.ts";
 
 export type MowojangProfile = {
   UUID: UUID;

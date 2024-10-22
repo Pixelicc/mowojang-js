@@ -1,4 +1,4 @@
-import { UUID } from "../types/index.js";
+import type { UUID } from "../types/index.d.ts";
 
 /**
  * Removes dashes from a UUID string

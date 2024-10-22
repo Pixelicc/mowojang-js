@@ -1,4 +1,4 @@
-import { Player } from "../types/index.js";
+import type { Player } from "../types/index.d.ts";
 import { undashUUID } from "./utils.js";
 
 /**
