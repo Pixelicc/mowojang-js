@@ -35,7 +35,7 @@ const username = await Mowojang.getUsername("14727fae-fbdc-4aff-848c-d2713eb9939
 - `getCape()`: Returns the Cape the specified Player has currently selected
 - `getCapeBuffer()`: Returns Cape Image fetched via getCape() as a Buffer
 
-All above Functions accept an second Argument containing an optional config.
+All above Functions accept an second Argument containing an optional config object.
 Cache options can also be passed there via the cache key. All available cache options can be found [here](https://axios-cache-interceptor.js.org/config/request-specifics#cache).
 
 ## 🗃️ Utility Functions
@@ -50,7 +50,7 @@ All Utility Functions are exported combined as `utlis.x`.
 All Validator Functions are exported combined as `validate.x`.
 
 - `UUID()`: Returns whether the provided String is an valid UUID (Accepts both undashed and dashed UUIDv4 Strings)
-- `username()`: Returns whether the provided String is an valid Username
+- `username()`: Returns whether the provided String is an valid Username (Accepts a second argument stating the minimum length required to pass the validation)
 - `player()` Combines the above
 
 ## ⚙️ Development

@@ -30,8 +30,20 @@ describe("Validator Functions", { timeout: 10000 }, function () {
     it("Should be true on an valid Minecraft Username", function () {
       assert.strictEqual(validate.username("Pixelic"), true);
     });
+    it("Should be true on an valid Minecraft Username with 2 characters when 'minimumLength' is set to 2", function () {
+      assert.strictEqual(validate.username("AB", 2), true);
+    });
+    it("Should be true on an valid Minecraft Username with 1 characters when 'minimumLength' is set to 1", function () {
+      assert.strictEqual(validate.username("8", 1), true);
+    });
     it("Should be false on an invalid Minecraft Username", function () {
       assert.strictEqual(validate.username("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername"), false);
+    });
+    it("Should be false on an invalid Minecraft Username when 'minimumLength' is set to 2", function () {
+      assert.strictEqual(validate.username("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", 2), false);
+    });
+    it("Should be false on an invalid Minecraft Username when 'minimumLength' is set to 1", function () {
+      assert.strictEqual(validate.username("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", 1), false);
     });
   });
   describe("#player()", function () {
@@ -44,8 +56,20 @@ describe("Validator Functions", { timeout: 10000 }, function () {
     it("Should be true on an valid Minecraft Username", function () {
       assert.strictEqual(validate.player("Pixelic"), true);
     });
+    it("Should be true on an valid Minecraft Username with 2 characters when 'minimumLength' is set to 2", function () {
+      assert.strictEqual(validate.player("AB", 2), true);
+    });
+    it("Should be true on an valid Minecraft Username with 1 characters when 'minimumLength' is set to 1", function () {
+      assert.strictEqual(validate.player("8", 1), true);
+    });
     it("Should be false on an invalid Minecraft Username", function () {
       assert.strictEqual(validate.player("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername"), false);
+    });
+    it("Should be false on an invalid Minecraft Username when 'minimumLength' is set to 2", function () {
+      assert.strictEqual(validate.player("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", 2), false);
+    });
+    it("Should be false on an invalid Minecraft Username when 'minimumLength' is set to 1", function () {
+      assert.strictEqual(validate.player("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", 1), false);
     });
   });
 });

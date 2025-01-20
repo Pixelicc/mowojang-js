@@ -12,6 +12,9 @@ export type AxiosOptions = {
 
 export type MowojangRequestConfig = {
   validate?: boolean;
+  validationOptions?: {
+    minimumUsernameLength?: 1 | 2;
+  };
   cache?: CacheRequestConfig<any, any>["cache"];
 };
 

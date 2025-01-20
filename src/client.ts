@@ -33,7 +33,10 @@ export default class Client {
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile[], undefined> {
     try {
-      if (config?.validate !== false && !validateArray(players, validatePlayer))
+      if (
+        config?.validate !== false &&
+        !validateArray(players, validatePlayer, config?.validationOptions?.minimumUsernameLength)
+      )
         return { data: null, error: "INVALID_INPUT" };
       players = players
         .map((player) => {
@@ -69,7 +72,8 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile, "INVALID_PLAYER"> {
-    if (config?.validate !== false && !validatePlayer(player)) return { data: null, error: "INVALID_INPUT" };
+    if (config?.validate !== false && !validatePlayer(player, config?.validationOptions?.minimumUsernameLength))
+      return { data: null, error: "INVALID_INPUT" };
 
     const profiles = await this.getProfiles([player], config);
     if (profiles.error) return { data: null, error: profiles.error };
@@ -107,7 +111,10 @@ export default class Client {
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangSession[], undefined> {
     try {
-      if (config?.validate !== false && !validateArray(players, validatePlayer))
+      if (
+        config?.validate !== false &&
+        !validateArray(players, validatePlayer, config?.validationOptions?.minimumUsernameLength)
+      )
         return { data: null, error: "INVALID_INPUT" };
       players = players.map((player) => {
         if (validateUUID(player)) return undashUUID(player);
@@ -141,7 +148,8 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangSession, "INVALID_PLAYER"> {
-    if (config?.validate !== false && !validatePlayer(player)) return { data: null, error: "INVALID_INPUT" };
+    if (config?.validate !== false && !validatePlayer(player, config?.validationOptions?.minimumUsernameLength))
+      return { data: null, error: "INVALID_INPUT" };
     const UUID = await this.getUUID(player);
     if (!UUID) return { data: null, error: "INVALID_PLAYER" };
 
