@@ -2,6 +2,7 @@ import type { CacheOptions, CacheRequestConfig } from "axios-cache-interceptor";
 
 export type ClientOptions = {
   timeout?: number;
+  validation?: ValidationOptions;
   cache?: CacheOptions;
 };
 
@@ -10,11 +11,13 @@ export type AxiosOptions = {
   cache?: CacheOptions;
 };
 
+export type ValidationOptions = {
+  enabled?: boolean;
+  minimumUsernameLength?: 1 | 2;
+};
+
 export type MowojangRequestConfig = {
-  validate?: boolean;
-  validationOptions?: {
-    minimumUsernameLength?: 1 | 2;
-  };
+  validation?: ValidationOptions;
   cache?: CacheRequestConfig<any, any>["cache"];
 };
 

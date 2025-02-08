@@ -6,6 +6,7 @@ import type {
   Username,
   UUID,
   ClientOptions,
+  ValidationOptions,
   MowojangCape,
   MowojangProfile,
   MowojangRequestConfig,
@@ -18,9 +19,23 @@ import { undashUUID } from "./utils.js";
 
 export default class Client {
   private axios: AxiosCacheInstance;
+  private validation: ValidationOptions;
 
   constructor(clientOptions?: ClientOptions) {
     this.axios = axiosInstance(clientOptions);
+    this.validation = clientOptions?.validation ?? {};
+  }
+
+  private shouldValidate(config?: MowojangRequestConfig): boolean {
+    return this.validation?.enabled || config?.validation?.enabled || false;
+  }
+
+  private getValidationMinLength(config?: MowojangRequestConfig): 1 | 2 | undefined {
+    if (this.validation?.minimumUsernameLength === 1) return 1;
+    if (this.validation?.minimumUsernameLength === 2) return 2;
+    if (config?.validation?.minimumUsernameLength === 1) return 1;
+    if (config?.validation?.minimumUsernameLength === 2) return 2;
+    return undefined;
   }
 
   /**
@@ -33,10 +48,7 @@ export default class Client {
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile[], undefined> {
     try {
-      if (
-        config?.validate !== false &&
-        !validateArray(players, validatePlayer, config?.validationOptions?.minimumUsernameLength)
-      )
+      if (this.shouldValidate(config) && !validateArray(players, validatePlayer, this.getValidationMinLength(config)))
         return { data: null, error: "INVALID_INPUT" };
       players = players
         .map((player) => {
@@ -72,7 +84,7 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile, "INVALID_PLAYER"> {
-    if (config?.validate !== false && !validatePlayer(player, config?.validationOptions?.minimumUsernameLength))
+    if (this.shouldValidate(config) && !validatePlayer(player, this.getValidationMinLength(config)))
       return { data: null, error: "INVALID_INPUT" };
 
     const profiles = await this.getProfiles([player], config);
@@ -111,10 +123,7 @@ export default class Client {
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangSession[], undefined> {
     try {
-      if (
-        config?.validate !== false &&
-        !validateArray(players, validatePlayer, config?.validationOptions?.minimumUsernameLength)
-      )
+      if (this.shouldValidate(config) && !validateArray(players, validatePlayer, this.getValidationMinLength(config)))
         return { data: null, error: "INVALID_INPUT" };
       players = players.map((player) => {
         if (validateUUID(player)) return undashUUID(player);
@@ -148,7 +157,7 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangSession, "INVALID_PLAYER"> {
-    if (config?.validate !== false && !validatePlayer(player, config?.validationOptions?.minimumUsernameLength))
+    if (this.shouldValidate(config) && !validatePlayer(player, this.getValidationMinLength(config)))
       return { data: null, error: "INVALID_INPUT" };
     const UUID = await this.getUUID(player);
     if (!UUID) return { data: null, error: "INVALID_PLAYER" };
