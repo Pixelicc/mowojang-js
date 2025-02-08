@@ -4,7 +4,7 @@ import * as assert from "node:assert";
 
 const Mowojang = new MowojangClient();
 
-describe("Utility Functions", { timeout: 10000 }, function () {
+describe("Utility Functions", { timeout: 1000 }, function () {
   describe("#dashUUID()", function () {
     it("Should add dashes to an UUIDv4 String", function () {
       assert.strictEqual(utils.dashUUID("14727faefbdc4aff848cd2713eb9939e"), "14727fae-fbdc-4aff-848c-d2713eb9939e");
@@ -17,7 +17,7 @@ describe("Utility Functions", { timeout: 10000 }, function () {
   });
 });
 
-describe("Validator Functions", { timeout: 10000 }, function () {
+describe("Validator Functions", { timeout: 1000 }, function () {
   describe("#UUID()", function () {
     it("Should be true on an valid UUIDv4 String", function () {
       assert.strictEqual(validate.UUID("14727fae-fbdc-4aff-848c-d2713eb9939e"), true);
@@ -74,7 +74,7 @@ describe("Validator Functions", { timeout: 10000 }, function () {
   });
 });
 
-describe("Functions", { timeout: 10000 }, function () {
+describe("Functions", { timeout: 60000 }, function () {
   describe("#getUUID", function () {
     it("Should convert an Minecraft Username to its UUIDv4 String", async function () {
       const UUID = await Mowojang.getUUID("Pixelic");

@@ -6,7 +6,7 @@ import type { AxiosOptions } from "../types/index.d.ts";
 export default (options?: AxiosOptions): AxiosCacheInstance => {
   return setupCache(
     axios.create({
-      timeout: options?.timeout ?? 5000,
+      timeout: options?.timeout ?? 10000,
       maxRedirects: 0,
       headers: {
         "User-Agent": `axios/${axios.VERSION} mowojang/${PackageJSON.version} (https://www.npmjs.com/package/mowojang)`,
