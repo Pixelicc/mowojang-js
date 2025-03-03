@@ -17,15 +17,15 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ^22.10.7
-        version: 22.10.7
+        version: 22.13.8
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
 
 packages:
 
-  '@types/node@22.10.7':
-    resolution: {integrity: sha512-V09KvXxFiutGp6B7XkpaDXlNadZxrzajcY50EuoLIpQ6WWYCSvf19lVIazzfIzQvhUN2HjX12spLojTnhuKlGg==}
+  '@types/node@22.13.8':
+    resolution: {integrity: sha512-G3EfaZS+iOGYWLLRCEAXdWK9my08oHNZ+FHluRiggIYJPOXzhOiDgpVCUHaUvyIC5/fj7C/p637jdzC666AOKQ==}
 
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
@@ -90,7 +90,7 @@ packages:
 
 snapshots:
 
-  '@types/node@22.10.7':
+  '@types/node@22.13.8':
     dependencies:
       undici-types: 6.20.0
 
