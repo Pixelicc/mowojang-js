@@ -84,13 +84,24 @@ export default class Client {
     player: Player,
     config?: MowojangRequestConfig,
   ): MowojangResponse<MowojangProfile, "INVALID_PLAYER"> {
-    if (this.shouldValidate(config) && !validatePlayer(player, this.getValidationMinLength(config)))
-      return { data: null, error: "INVALID_INPUT" };
+    try {
+      if (this.shouldValidate(config) && !validatePlayer(player, this.getValidationMinLength(config)))
+        return { data: null, error: "INVALID_INPUT" };
 
-    const profiles = await this.getProfiles([player], config);
-    if (profiles.error) return { data: null, error: profiles.error };
-    if (profiles.data.length === 0) return { data: null, error: "INVALID_PLAYER" };
-    return { data: profiles.data[0], error: null };
+      const fetchResponse = await this.axios.get(`https://mowojang.matdoes.dev/${player}`, {
+        cache: config?.cache ?? { ttl: 15 * 60 * 1000 },
+      });
+
+      return {
+        data: {
+          UUID: fetchResponse.data.id,
+          username: fetchResponse.data.name,
+        },
+        error: null,
+      };
+    } catch {
+      return { data: null, error: "INVALID_PLAYER" };
+    }
   }
 
   /**
