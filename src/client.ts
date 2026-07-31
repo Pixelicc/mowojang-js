@@ -62,6 +62,8 @@ export default class Client {
    *
    * Players considered "INVALID" are excluded from the results
    *
+   * Default cache TTL: 1 hour when config.cache is not provided.
+   *
    * @example
    * ```TS
    * const profiles = await client.getProfiles(["Pixelic", "14727faefbdc4aff848cd2713eb9939e"]);
@@ -84,7 +86,7 @@ export default class Client {
       const usePost = config?.usePost ?? false;
       if (usePost) {
         const fetchResponse = await this.axios.post(this.baseURL, players, {
-          cache: config?.cache ?? { ttl: 15 * 60 * 1000 },
+          cache: config?.cache ?? { ttl: 60 * 60 * 1000 },
         });
         if (!Array.isArray(fetchResponse?.data)) return { data: null, error: "UNKNOWN_ERROR" };
 
@@ -114,6 +116,8 @@ export default class Client {
   /**
    * Returns a Player's Profile consisting of their Username and UUID
    *
+   * Default cache TTL: 1 hour when config.cache is not provided.
+   *
    * @example
    * ```TS
    * const profile = await client.getProfile("Pixelic");
@@ -128,7 +132,7 @@ export default class Client {
         return { data: null, error: "INVALID_INPUT" };
 
       const fetchResponse = await this.axios.get(`${this.baseURL}/${player}`, {
-        cache: config?.cache ?? { ttl: 15 * 60 * 1000 },
+        cache: config?.cache ?? { ttl: 60 * 60 * 1000 },
       });
 
       return {
@@ -146,6 +150,8 @@ export default class Client {
   /**
    * A simple Wrapper to retrieve only the UUID of a Player's Profile
    *
+   * Uses getProfile cache behavior (default TTL: 1 hour when config.cache is not provided).
+   *
    * @example
    * ```TS
    * const uuid = await client.getUUID("Pixelic");
@@ -159,6 +165,8 @@ export default class Client {
 
   /**
    * A simple Wrapper to retrieve only the Username of a Player's Profile
+   *
+   * Uses getProfile cache behavior (default TTL: 1 hour when config.cache is not provided).
    *
    * @example
    * ```TS
@@ -175,6 +183,8 @@ export default class Client {
    * Returns an Array of Player Sessions consisting of their Usernames, UUIDs, Skins and Capes
    *
    * Players considered "INVALID" are excluded from the results
+   *
+   * Uses getSession cache behavior (default TTL: 15 minutes when config.cache is not provided).
    *
    * @example
    * ```TS
@@ -209,6 +219,8 @@ export default class Client {
 
   /**
    * Returns a Player's Sessions consisting of their Username, UUID, Skin and Cape
+   *
+   * Default cache TTL: 15 minutes when config.cache is not provided.
    *
    * @example
    * ```TS
@@ -273,6 +285,8 @@ export default class Client {
   /**
    * A simple Wrapper to retrieve only the Skin from a Player's Session
    *
+   * Uses getSession cache behavior (default TTL: 15 minutes when config.cache is not provided).
+   *
    * @example
    * ```TS
    * const skin = await client.getSkin("Pixelic");
@@ -286,6 +300,8 @@ export default class Client {
 
   /**
    * A simple Wrapper to retrieve only the Player's Skin from their Session Data loaded into a Buffer
+   *
+   * Default cache TTL for the skin image request: 24 hours when config.cache is not provided.
    *
    * @example
    * ```TS
@@ -307,6 +323,8 @@ export default class Client {
   /**
    * A simple Wrapper to retrieve only the Cape Data from a Player's Session
    *
+   * Uses getSession cache behavior (default TTL: 15 minutes when config.cache is not provided).
+   *
    * @example
    * ```TS
    * const cape = await client.getCape("Pixelic");
@@ -320,6 +338,8 @@ export default class Client {
 
   /**
    * A simple Wrapper to retrieve only the Player's Cape from their Session Data loaded into a Buffer
+   *
+   * Default cache TTL for the cape image request: 30 days when config.cache is not provided.
    *
    * @example
    * ```TS
