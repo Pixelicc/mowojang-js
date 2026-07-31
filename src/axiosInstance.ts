@@ -1,8 +1,9 @@
 import axios from "axios";
 import { type AxiosCacheInstance, setupCache } from "axios-cache-interceptor";
-import PackageJSON from "../package.json" with { type: "json" };
 import type { AxiosOptions } from "../types/index.d.ts";
 import type { Logger } from "@pixelic/logger";
+
+declare const VERSION: string;
 
 export default (options: AxiosOptions, logger: Logger): AxiosCacheInstance => {
   const instance = setupCache(
@@ -10,7 +11,7 @@ export default (options: AxiosOptions, logger: Logger): AxiosCacheInstance => {
       timeout: options?.timeout ?? 10000,
       maxRedirects: 0,
       headers: {
-        "User-Agent": `axios/${axios.VERSION} mowojang/${PackageJSON.version} (https://www.npmjs.com/package/mowojang)`,
+        "User-Agent": `axios/${axios.VERSION} mowojang/${VERSION[0]} (https://www.npmjs.com/package/mowojang)`,
         Accept: "application/json",
       },
     }),
