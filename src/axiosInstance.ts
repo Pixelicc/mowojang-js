@@ -3,7 +3,7 @@ import { type AxiosCacheInstance, setupCache } from "axios-cache-interceptor";
 import type { AxiosOptions } from "../types/index.d.ts";
 import type { Logger } from "@pixelic/logger";
 
-declare const VERSION: string;
+declare const VERSION: [string];
 
 export default (options: AxiosOptions, logger: Logger): AxiosCacheInstance => {
   const instance = setupCache(
