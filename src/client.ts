@@ -71,7 +71,7 @@ export default class Client {
 
       const value = (await storage.get(ID)) as any;
       const usernameID = this.getProfileCacheID(username);
-      const uuidID = this.getProfileCacheID(undashUUID(UUID));
+      const uuidID = this.getProfileCacheID(UUID);
 
       if (ID !== usernameID) await storage.set(usernameID, value);
       if (ID !== uuidID) await storage.set(uuidID, value);
