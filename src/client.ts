@@ -70,6 +70,8 @@ export default class Client {
       if (!storage.get || !storage.set) return;
 
       const value = (await storage.get(ID)) as any;
+      if (!value) return;
+
       const usernameID = this.getProfileCacheID(username);
       const uuidID = this.getProfileCacheID(UUID);
 
