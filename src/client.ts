@@ -57,6 +57,31 @@ export default class Client {
     return this.validation?.minimumUsernameLength ?? config?.validation?.minimumUsernameLength;
   }
 
+  private getProfileCacheID(player: Player): string {
+    const normalizedPlayer = validateUUID(player)
+      ? `uuid:${undashUUID(player).toLowerCase()}`
+      : `username:${player.toLowerCase()}`;
+    return `profile:${normalizedPlayer}`;
+  }
+
+  private async mirrorProfileCacheEntries(ID: string, username: Username, UUID: UUID): Promise<void> {
+    try {
+      const storage = this.axios.storage;
+      if (!storage.get || !storage.set) return;
+
+      const value = (await storage.get(ID)) as any;
+      if (!value) return;
+
+      const usernameID = this.getProfileCacheID(username);
+      const uuidID = this.getProfileCacheID(UUID);
+
+      if (ID !== usernameID) await storage.set(usernameID, value);
+      if (ID !== uuidID) await storage.set(uuidID, value);
+    } catch {
+      /** TODO */
+    }
+  }
+
   /**
    * Returns an Array of Player Profiles consisting of their Usernames and UUIDs
    *
@@ -132,8 +157,13 @@ export default class Client {
         return { data: null, error: "INVALID_INPUT" };
 
       const fetchResponse = await this.axios.get(`${this.baseURL}/${player}`, {
+        id: this.getProfileCacheID(player),
         cache: config?.cache ?? { ttl: 60 * 60 * 1000 },
       });
+
+      if (config?.cache !== false && (typeof config?.cache !== "object" || config.cache.enabled !== false)) {
+        await this.mirrorProfileCacheEntries(fetchResponse.id, fetchResponse.data.name, fetchResponse.data.id);
+      }
 
       return {
         data: {
