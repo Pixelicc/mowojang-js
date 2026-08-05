@@ -169,8 +169,6 @@ export default class Client {
         await this.mirrorProfileCacheEntries(fetchResponse.id, fetchResponse.data.name, fetchResponse.data.id);
       }
 
-      console.log(fetchResponse.cached);
-
       return {
         data: {
           UUID: fetchResponse.data.id,
