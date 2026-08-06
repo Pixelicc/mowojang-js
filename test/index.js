@@ -144,7 +144,7 @@ describe("Functions", { timeout: 60000 }, function () {
     it("Should not be validating an Player whilst validation is forced off", async function () {
       const players = await Mowojang.getProfiles(
         ["Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"],
-        { validate: false },
+        { validation: { enabled: false } },
       );
       assert.ok(Array.isArray(players.data));
       assert.strictEqual(players.data.length, 0);
@@ -158,7 +158,7 @@ describe("Functions", { timeout: 60000 }, function () {
     });
     it("Should not be validating an Player whilst validation is forced off", async function () {
       const player = await Mowojang.getProfile("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", {
-        validate: false,
+        validation: { enabled: false },
       });
       assert.strictEqual(player.error, "INVALID_PLAYER");
     });
@@ -191,7 +191,7 @@ describe("Functions", { timeout: 60000 }, function () {
     it("Should not be validating an Player whilst validation is forced off", async function () {
       const sessions = await Mowojang.getSessions(
         ["Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"],
-        { validate: false },
+        { validation: { enabled: false } },
       );
       assert.ok(Array.isArray(sessions.data));
       assert.strictEqual(sessions.data.length, 0);
@@ -223,7 +223,7 @@ describe("Functions", { timeout: 60000 }, function () {
     });
     it("Should not be validating an Player whilst validation is forced off", async function () {
       const session = await Mowojang.getSession("Pixelic'sNameIsWayTooLongToBeAValidMinecraftUsername", {
-        validate: false,
+        validation: { enabled: false },
       });
       assert.strictEqual(session.error, "INVALID_PLAYER");
     });
