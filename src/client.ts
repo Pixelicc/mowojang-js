@@ -68,7 +68,7 @@ export default class Client {
     ID: string,
     username: Username,
     UUID: UUID,
-    internalId?: string,
+    internalId: string,
   ): Promise<void> {
     try {
       const storage = this.axios.storage;
