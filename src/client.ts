@@ -64,10 +64,22 @@ export default class Client {
     return `profile:${normalizedPlayer}`;
   }
 
-  private async mirrorProfileCacheEntries(ID: string, username: Username, UUID: UUID): Promise<void> {
+  private async mirrorProfileCacheEntries(
+    ID: string,
+    username: Username,
+    UUID: UUID,
+    internalId?: string,
+  ): Promise<void> {
     try {
       const storage = this.axios.storage;
-      if (!storage.get || !storage.set) return;
+      if (!storage.get || !storage.set) {
+        this.logger.warning(
+          "Mowojang",
+          `No Storage Methods available or set up for Profile Mirror to work with`,
+          internalId,
+        );
+        return;
+      }
 
       const value = (await storage.get(ID)) as any;
       if (!value) return;
@@ -75,10 +87,16 @@ export default class Client {
       const usernameID = this.getProfileCacheID(username);
       const uuidID = this.getProfileCacheID(UUID);
 
-      if (ID !== usernameID) await storage.set(usernameID, value);
-      if (ID !== uuidID) await storage.set(uuidID, value);
-    } catch {
-      /** TODO */
+      if (ID !== usernameID) {
+        await storage.set(usernameID, value);
+        this.logger.debug("Mowojang", `PROFILE-CACHE-MIRROR-SET ${ID} -> ${usernameID}`, internalId);
+      }
+      if (ID !== uuidID) {
+        await storage.set(uuidID, value);
+        this.logger.debug("Mowojang", `PROFILE-CACHE-MIRROR-SET ${ID} -> ${uuidID}`, internalId);
+      }
+    } catch (error) {
+      this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error", internalId);
     }
   }
 
@@ -162,7 +180,14 @@ export default class Client {
       });
 
       if (config?.cache !== false && (typeof config?.cache !== "object" || config.cache.enabled !== false)) {
-        await this.mirrorProfileCacheEntries(fetchResponse.id, fetchResponse.data.name, fetchResponse.data.id);
+        // @ts-expect-error
+        const internalId = fetchResponse.config?.internalId as string;
+        await this.mirrorProfileCacheEntries(
+          fetchResponse.id,
+          fetchResponse.data.name,
+          fetchResponse.data.id,
+          internalId,
+        );
       }
 
       return {
