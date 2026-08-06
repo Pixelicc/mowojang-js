@@ -14,7 +14,7 @@ const Mowojang = new Client({
     storage: cache.buildMemoryStorage(
       false, // Doesn't clone data
       60 * 60 * 1000, // Cleans outdated cache entries every hour
-      false // Doesn't set a max entry limit
+      false, // Doesn't set a max entry limit
       60 * 60 * 1000 // Cleans stale cache entries every hour
       /**
        * More detailed documentation:
