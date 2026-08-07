@@ -1,4 +1,4 @@
-name: Node.js CI (Prettier Check)
+name: Node.js CI (ESLint)
 
 on:
   push:
@@ -17,5 +17,5 @@ jobs:
         with:
           node-version: "26.x"
           cache: "pnpm"
-      - name: Check formatting via Prettier
-        run: node --run prettier:check
+      - name: Check code with ESLint
+        run: pnpm lint:check

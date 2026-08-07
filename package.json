@@ -14,10 +14,12 @@
   "type": "module",
   "scripts": {
     "build": "tsup",
+    "prepare": "pnpm build",
     "test": "node test test/index.js",
-    "prettier:check": "pnpm dlx prettier . --check",
-    "prettier:write": "pnpm dlx prettier . --write",
-    "prepare": "pnpm build"
+    "prettier:check": "pnpm prettier . --check",
+    "prettier:write": "pnpm prettier . --write",
+    "lint:check": "pnpm eslint .",
+    "lint:fix": "pnpm eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -39,9 +41,18 @@
     "axios-cache-interceptor": "^1.12.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@pixelic/logger": "jsr:^0.3.0",
     "@types/node": "^26.1.2",
+    "@typescript-eslint/eslint-plugin": "^8.66.0",
+    "@typescript-eslint/parser": "^8.66.0",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.6",
+    "jiti": "^2.7.0",
+    "prettier": "^3.9.6",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.66.0"
   }
 }

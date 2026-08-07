@@ -63,7 +63,7 @@ export default class Client {
   }
 
   private shouldValidate(config?: MowojangRequestConfig): boolean {
-    return Boolean(this.validation?.enabled || config?.validation?.enabled);
+    return Boolean(this.validation?.enabled ?? config?.validation?.enabled);
   }
 
   private getValidationMinLength(config?: MowojangRequestConfig): 1 | 2 | undefined {
