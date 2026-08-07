@@ -50,9 +50,9 @@ export type MowojangCache = readonly {
   /** Clears the entire internal cache storage. */
   readonly clear: () => Promise<void>;
   /** Sets a raw internal cache entry for a cache key. */
-  readonly set: <T>(key: string, value: NotEmptyStorageValue) => Promise<void>;
+  readonly set: (key: string, value: NotEmptyStorageValue) => Promise<void>;
   /** Returns the raw internal cache entry for a cache key. */
-  readonly get: <T>(key: string) => Promise<StorageValue>;
+  readonly get: (key: string) => Promise<StorageValue>;
   /** Deletes a raw internal cache entry by cache key. */
   readonly del: (key: string) => Promise<void>;
   /** Checks whether a cached value exists for a cache key. */
