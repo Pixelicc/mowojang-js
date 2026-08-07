@@ -13,7 +13,7 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "tsup",
+    "build": "pnpm tsup",
     "prepare": "pnpm build",
     "test": "node test test/index.js",
     "prettier:check": "pnpm prettier . --check",
