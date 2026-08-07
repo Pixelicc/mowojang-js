@@ -16,8 +16,8 @@ importers:
         version: 1.12.1(axios@1.19.0)
     devDependencies:
       '@pixelic/logger':
-        specifier: jsr:~0.2.0
-        version: '@jsr/pixelic__logger@0.2.0'
+        specifier: jsr:^0.3.0
+        version: '@jsr/pixelic__logger@0.3.0'
       '@types/node':
         specifier: ^26.1.2
         version: 26.1.2
@@ -199,8 +199,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@jsr/pixelic__logger@0.2.0':
-    resolution: {integrity: sha512-gKOSYzSAArb+AZSxckSEi1+XRlHSFXj/i/eg6H9xizfG8FsgKKJ5yRkD+xruNcBrvDtaKIXCbwURGNkaxLVDPg==, tarball: https://npm.jsr.io/~/11/@jsr/pixelic__logger/0.2.0.tgz}
+  '@jsr/pixelic__logger@0.3.0':
+    resolution: {integrity: sha512-mYizQGV2SC/DsRh0qgF4GA+447zCW5Y2KVhmouSKug7RppJEnOQ+ycQnEPK8Rtkdd1Fqg2ZCbnpolz0fqkws4g==, tarball: https://npm.jsr.io/~/11/@jsr/pixelic__logger/0.3.0.tgz}
 
   '@rollup/rollup-android-arm-eabi@4.60.4':
     resolution: {integrity: sha512-F5QXMSiFebS9hKZj02XhWLLnRpJ3B3AROP0tWbFBSj+6kCbg5m9j5JoHKd4mmSVy5mS/IMQloYgYxCuJC0fxEQ==}
@@ -766,7 +766,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jsr/pixelic__logger@0.2.0': {}
+  '@jsr/pixelic__logger@0.3.0': {}
 
   '@rollup/rollup-android-arm-eabi@4.60.4':
     optional: true
