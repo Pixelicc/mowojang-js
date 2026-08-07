@@ -153,7 +153,6 @@ export default class Client {
     try {
       if (this.axios.storage.get) {
         const value = await this.axios.storage.get(key);
-        console.log(value);
         return value.state === "cached" && "data" in value;
       }
     } catch (error) {
