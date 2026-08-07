@@ -16,8 +16,6 @@
     "build": "pnpm tsup",
     "prepare": "pnpm build",
     "test": "node test test/index.js",
-    "prettier:check": "pnpm prettier . --check",
-    "prettier:write": "pnpm prettier . --write",
     "lint:check": "pnpm eslint .",
     "lint:fix": "pnpm eslint . --fix"
   },
