@@ -1,5 +1,11 @@
-import { LoggerConfig } from "@pixelic/logger";
-import type { CacheOptions, CacheRequestConfig } from "axios-cache-interceptor";
+import type { LoggerConfig } from "@pixelic/logger";
+import type {
+  CacheOptions,
+  CacheRequestConfig,
+  NotEmptyStorageValue,
+  StorageValue,
+  AxiosStorage,
+} from "axios-cache-interceptor";
 
 /**
  * Options for the Mowojang Client Instance
@@ -32,6 +38,33 @@ export type AxiosOptions = {
 export type ValidationOptions = {
   enabled?: boolean;
   minimumUsernameLength?: 1 | 2;
+};
+
+/**
+ * Cache helpers that proxy the internal storage from `axios-cache-interceptor`.
+ *
+ * WARNING: This is an API intended for very specific usecases.
+ * Incorrect writes/deletes or clearing storage at the wrong time can break cache behavior or cause unexpected errors.
+ */
+export type MowojangCache = readonly {
+  /** Clears the entire internal cache storage. */
+  readonly clear: () => Promise<void>;
+  /** Sets a raw internal cache entry for a cache key. */
+  readonly set: <T>(key: string, value: NotEmptyStorageValue) => Promise<void>;
+  /** Returns the raw internal cache entry for a cache key. */
+  readonly get: <T>(key: string) => Promise<StorageValue>;
+  /** Deletes a raw internal cache entry by cache key. */
+  readonly del: (key: string) => Promise<void>;
+  /** Checks whether a cached value exists for a cache key. */
+  readonly has: (key: string) => Promise<boolean>;
+  /**
+   * Direct reference to the internal axios-cache-interceptor storage instance.
+   *
+   * **DO NOT USE THIS IF YOU ARE NOT 100% SURE WHAT YOU ARE DOING.**
+   *
+   * @link https://axios-cache-interceptor.js.org/guide/storages
+   */
+  readonly _storage: AxiosStorage;
 };
 
 export type MowojangRequestConfig = {

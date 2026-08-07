@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import type { AxiosCacheInstance } from "axios-cache-interceptor";
+import type { AxiosCacheInstance, StorageValue, NotEmptyStorageValue } from "axios-cache-interceptor";
 import axiosInstance from "./axiosInstance.js";
 import type {
   Player,
@@ -13,6 +13,7 @@ import type {
   MowojangResponse,
   MowojangSession,
   MowojangSkin,
+  MowojangCache,
 } from "../types/index.d.ts";
 import { validateArray, validatePlayer, validateUUID } from "./validators.js";
 import { undashUUID } from "./utils.js";
@@ -23,6 +24,7 @@ export default class Client {
   private axios: AxiosCacheInstance;
   private validation: ValidationOptions;
   private baseURL: string;
+  public cache: MowojangCache;
 
   /**
    * Creates a new Mowojang Client Instance
@@ -47,6 +49,14 @@ export default class Client {
     this.validation = clientOptions?.validation ?? {};
     this.baseURL = (clientOptions?.baseURL ?? "https://mowojang.matdoes.dev").toLowerCase();
     this.axios = axiosInstance({ fallback: true, ...clientOptions }, this.logger);
+    this.cache = {
+      clear: async () => await this._clearCache(),
+      set: async (key: string, value: NotEmptyStorageValue) => await this._setCacheKey(key, value),
+      get: async (key: string) => await this._getCacheKey(key),
+      del: async (key: string) => await this._delCacheKey(key),
+      has: async (key: string) => await this._hasCacheKey(key),
+      _storage: this.axios.storage,
+    };
   }
 
   private shouldValidate(config?: MowojangRequestConfig): boolean {
@@ -57,7 +67,7 @@ export default class Client {
     return this.validation?.minimumUsernameLength ?? config?.validation?.minimumUsernameLength;
   }
 
-  private getProfileCacheID(player: Player): string {
+  private getProfileCacheKey(player: Player): string {
     const normalizedPlayer = validateUUID(player)
       ? `uuid:${undashUUID(player).toLowerCase()}`
       : `username:${player.toLowerCase()}`;
@@ -84,8 +94,8 @@ export default class Client {
       const value = (await storage.get(ID)) as any;
       if (!value) return;
 
-      const usernameID = this.getProfileCacheID(username);
-      const uuidID = this.getProfileCacheID(UUID);
+      const usernameID = this.getProfileCacheKey(username);
+      const uuidID = this.getProfileCacheKey(UUID);
 
       if (ID !== usernameID) {
         await storage.set(usernameID, value);
@@ -98,6 +108,59 @@ export default class Client {
     } catch (error) {
       this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error", internalId);
     }
+  }
+
+  private async _clearCache(): Promise<void> {
+    try {
+      if (this.axios.storage.clear) {
+        return await this.axios.storage.clear();
+      }
+    } catch (error) {
+      this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error");
+    }
+  }
+
+  private async _setCacheKey(key: string, value: NotEmptyStorageValue): Promise<void> {
+    try {
+      if (this.axios.storage.set) {
+        return await this.axios.storage.set(key, value);
+      }
+    } catch (error) {
+      this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error");
+    }
+  }
+
+  private async _getCacheKey(key: string): Promise<StorageValue> {
+    try {
+      if (this.axios.storage.get) {
+        return await this.axios.storage.get(key);
+      }
+    } catch (error) {
+      this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error");
+    }
+    return { state: "empty" };
+  }
+
+  private async _delCacheKey(key: string): Promise<void> {
+    try {
+      if (this.axios.storage.remove) {
+        return await this.axios.storage.remove(key);
+      }
+    } catch (error) {
+      this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error");
+    }
+  }
+
+  private async _hasCacheKey(key: string): Promise<boolean> {
+    try {
+      if (this.axios.storage.get) {
+        const value = await this.axios.storage.get(key);
+        return value.state === "cached" && "data" in value;
+      }
+    } catch (error) {
+      this.logger.error("Mowojang", error instanceof Error ? error.message : "Unknown Error");
+    }
+    return false;
   }
 
   /**
@@ -175,7 +238,7 @@ export default class Client {
         return { data: null, error: "INVALID_INPUT" };
 
       const fetchResponse = await this.axios.get(`${this.baseURL}/${player}`, {
-        id: this.getProfileCacheID(player),
+        id: this.getProfileCacheKey(player),
         cache: config?.cache ?? { ttl: 60 * 60 * 1000 },
       });
 
