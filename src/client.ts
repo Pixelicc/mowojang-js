@@ -19,12 +19,15 @@ import { validateArray, validatePlayer, validateUUID } from "./validators.js";
 import { undashUUID } from "./utils.js";
 import { Logger } from "@pixelic/logger";
 
+declare const VERSION: [string];
+
 export default class Client {
   private logger: Logger;
   private axios: AxiosCacheInstance;
   private validation: ValidationOptions;
   private baseURL: string;
   public cache: MowojangCache;
+  public readonly version: string = VERSION[0];
 
   /**
    * Creates a new Mowojang Client Instance
