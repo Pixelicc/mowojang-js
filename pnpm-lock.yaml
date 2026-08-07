@@ -39,9 +39,6 @@ importers:
       eslint-plugin-prettier:
         specifier: ^5.5.6
         version: 5.5.6(eslint-config-prettier@10.1.8(eslint@10.8.0(jiti@2.7.0)))(eslint@10.8.0(jiti@2.7.0))(prettier@3.9.6)
-      jiti:
-        specifier: ^2.7.0
-        version: 2.7.0
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
@@ -1741,7 +1738,8 @@ snapshots:
 
   isexe@2.0.0: {}
 
-  jiti@2.7.0: {}
+  jiti@2.7.0:
+    optional: true
 
   joycon@3.1.1: {}
 
