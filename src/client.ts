@@ -24,13 +24,16 @@ export default class Client {
   private axios: AxiosCacheInstance;
   private validation: ValidationOptions;
   private baseURL: string;
-  public cache: MowojangCache = {
-    clear: async () => await this._clearCache(),
-    set: async (key: string, value: NotEmptyStorageValue) => await this._setCacheKey(key, value),
-    get: async (key: string) => await this._getCacheKey(key),
-    del: async (key: string) => await this._delCacheKey(key),
-    has: async (key: string) => await this._hasCacheKey(key),
-  };
+  /**
+   * Utilities for reading and manipulating the internal storage used by axios-cache-interceptor.
+   *
+   * WARNING: This is an advanced API. Incorrect writes/deletes or clearing the storage at the wrong
+   * time can break cache behavior.
+   *
+   * The `_storage` property is a direct reference to the internal axios-cache-interceptor storage.
+   * Do NOT use it unless you are 100% sure about the side effects.
+   */
+  public cache!: MowojangCache;
 
   /**
    * Creates a new Mowojang Client Instance
@@ -55,6 +58,14 @@ export default class Client {
     this.validation = clientOptions?.validation ?? {};
     this.baseURL = (clientOptions?.baseURL ?? "https://mowojang.matdoes.dev").toLowerCase();
     this.axios = axiosInstance({ fallback: true, ...clientOptions }, this.logger);
+    this.cache = {
+      clear: async () => await this._clearCache(),
+      set: async (key: string, value: NotEmptyStorageValue) => await this._setCacheKey(key, value),
+      get: async (key: string) => await this._getCacheKey(key),
+      del: async (key: string) => await this._delCacheKey(key),
+      has: async (key: string) => await this._hasCacheKey(key),
+      _storage: this.axios.storage,
+    };
   }
 
   private shouldValidate(config?: MowojangRequestConfig): boolean {
