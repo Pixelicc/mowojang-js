@@ -24,16 +24,7 @@ export default class Client {
   private axios: AxiosCacheInstance;
   private validation: ValidationOptions;
   private baseURL: string;
-  /**
-   * Utilities for reading and manipulating the internal storage used by axios-cache-interceptor.
-   *
-   * WARNING: This is an advanced API. Incorrect writes/deletes or clearing the storage at the wrong
-   * time can break cache behavior.
-   *
-   * The `_storage` property is a direct reference to the internal axios-cache-interceptor storage.
-   * Do NOT use it unless you are 100% sure about the side effects.
-   */
-  public cache!: MowojangCache;
+  public cache: MowojangCache;
 
   /**
    * Creates a new Mowojang Client Instance
