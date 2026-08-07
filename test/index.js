@@ -228,6 +228,24 @@ describe("Functions", { timeout: 60000 }, function () {
       assert.strictEqual(session.error, "INVALID_PLAYER");
     });
   });
+  describe("#cache.has", function () {
+    it("Should return true for profile:username:pixelic", async function () {
+      const result = await Mowojang.cache.has("profile:username:pixelic");
+      assert.ok(result);
+    });
+    it("Should return true for profile:uuid:14727faefbdc4aff848cd2713eb9939e", async function () {
+      const result = await Mowojang.cache.has("profile:uuid:14727faefbdc4aff848cd2713eb9939e");
+      assert.ok(result);
+    });
+    it("Should return false for profile:username:null", async function () {
+      const result = await Mowojang.cache.has("profile:username:null");
+      assert.ok(!result);
+    });
+    it("Should return false for profile:username:00000000-0000-0000-0000-000000000000", async function () {
+      const result = await Mowojang.cache.has("profile:username:00000000-0000-0000-0000-000000000000");
+      assert.ok(!result);
+    });
+  });
 });
 
 describe("User set baseURL to be: https://mowojang.seraph.si", { timeout: 60000 }, function () {

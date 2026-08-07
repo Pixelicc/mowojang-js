@@ -1,5 +1,5 @@
-import { LoggerConfig } from "@pixelic/logger";
-import type { CacheOptions, CacheRequestConfig } from "axios-cache-interceptor";
+import type { LoggerConfig } from "@pixelic/logger";
+import type { CacheOptions, CacheRequestConfig, NotEmptyStorageValue, StorageValue } from "axios-cache-interceptor";
 
 /**
  * Options for the Mowojang Client Instance
@@ -32,6 +32,14 @@ export type AxiosOptions = {
 export type ValidationOptions = {
   enabled?: boolean;
   minimumUsernameLength?: 1 | 2;
+};
+
+export type MowojangCache = readonly {
+  readonly clear: () => Promise<void>;
+  readonly set: <T>(key: string, value: NotEmptyStorageValue) => Promise<void>;
+  readonly get: <T>(key: string) => Promise<StorageValue>;
+  readonly del: (key: string) => Promise<void>;
+  readonly has: (key: string) => Promise<boolean>;
 };
 
 export type MowojangRequestConfig = {
