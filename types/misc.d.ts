@@ -20,25 +20,25 @@ import type {
  * };
  * ```
  */
-export type ClientOptions = {
+export interface ClientOptions {
   logger?: LoggerConfig;
   validation?: ValidationOptions;
   timeout?: number;
   cache?: CacheOptions;
   baseURL?: string;
   fallback?: boolean;
-};
+}
 
-export type AxiosOptions = {
+export interface AxiosOptions {
   timeout?: number;
   cache?: CacheOptions;
   fallback: boolean;
-};
+}
 
-export type ValidationOptions = {
+export interface ValidationOptions {
   enabled?: boolean;
   minimumUsernameLength?: 1 | 2;
-};
+}
 
 /**
  * Cache helpers that proxy the internal storage from `axios-cache-interceptor`.
@@ -67,10 +67,10 @@ export type MowojangCache = readonly {
   readonly _storage: AxiosStorage;
 };
 
-export type MowojangRequestConfig = {
+export interface MowojangRequestConfig {
   validation?: ValidationOptions;
   cache?: CacheRequestConfig<any, any>["cache"];
-};
+}
 
 export type MowojangError = "INVALID_PLAYER";
 
