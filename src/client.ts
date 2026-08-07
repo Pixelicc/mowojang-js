@@ -26,7 +26,7 @@ export default class Client {
   private axios: AxiosCacheInstance;
   private validation: ValidationOptions;
   private baseURL: string;
-  public cache: MowojangCache;
+  public readonly cache: MowojangCache;
   public readonly version: string = VERSION[0];
 
   /**
