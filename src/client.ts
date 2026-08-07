@@ -27,7 +27,7 @@ export default class Client {
   private validation: ValidationOptions;
   private baseURL: string;
   public readonly cache: MowojangCache;
-  public readonly version: string = VERSION[0];
+  public static readonly version: string = VERSION[0];
 
   /**
    * Creates a new Mowojang Client Instance
