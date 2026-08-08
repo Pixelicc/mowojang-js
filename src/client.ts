@@ -71,29 +71,12 @@ export default class Client {
     return this.validation?.minimumUsernameLength ?? config?.validation?.minimumUsernameLength;
   }
 
-  private getProfileCacheKey(player: Player): string {
-    const normalizedPlayer = validateUUID(player)
-      ? `uuid:${undashUUID(player).toLowerCase()}`
-      : `username:${player.toLowerCase()}`;
-    return `profile:${normalizedPlayer}`;
-  }
-
-  private getSessionCacheKey(player: Player): string {
-    const normalizedPlayer = validateUUID(player)
-      ? `uuid:${undashUUID(player).toLowerCase()}`
-      : `username:${player.toLowerCase()}`;
-    return `session:${normalizedPlayer}`;
-  }
-
-  private getSkinBufferCacheKey(player: Player): string {
-    const normalizedPlayer = validateUUID(player)
-      ? `uuid:${undashUUID(player).toLowerCase()}`
-      : `username:${player.toLowerCase()}`;
-    return `skin:${normalizedPlayer}`;
-  }
-
-  private getCapeBufferCacheKey(hash: string): string {
-    return `cape:${hash}`;
+  private getCacheKey(prefix: string, value: string, hash = false): string {
+    if (hash) return `${prefix}:${value}`;
+    const normalized = validateUUID(value)
+      ? `uuid:${undashUUID(value).toLowerCase()}`
+      : `username:${value.toLowerCase()}`;
+    return `${prefix}:${normalized}`;
   }
 
   private async mirrorProfileCacheEntries(
@@ -116,8 +99,8 @@ export default class Client {
       const value = (await storage.get(ID)) as any;
       if (!value) return;
 
-      const usernameID = this.getProfileCacheKey(username);
-      const uuidID = this.getProfileCacheKey(UUID);
+      const usernameID = this.getCacheKey("profile", username);
+      const uuidID = this.getCacheKey("profile", UUID);
 
       if (ID !== usernameID) {
         await storage.set(usernameID, value);
@@ -260,7 +243,7 @@ export default class Client {
         return { data: null, error: "INVALID_INPUT" };
 
       const fetchResponse = await this.axios.get(`${this.baseURL}/${player}`, {
-        id: this.getProfileCacheKey(player),
+        id: this.getCacheKey("profile", player),
         cache: config?.cache ?? { ttl: 60 * 60 * 1000 },
       });
 
@@ -378,7 +361,7 @@ export default class Client {
 
     return await this.axios
       .get(`${this.baseURL}/session/minecraft/profile/${UUID}`, {
-        id: this.getSessionCacheKey(player),
+        id: this.getCacheKey("session", player),
         cache: config?.cache ?? { ttl: 15 * 60 * 1000 },
       })
       .then((fetchResponse) => {
@@ -454,7 +437,7 @@ export default class Client {
     if (session.error || !session.data.skin) return null;
 
     const fetchResponse = await this.axios.get(session.data.skin.url, {
-      id: this.getSkinBufferCacheKey(player),
+      id: this.getCacheKey("skin", player),
       responseType: "arraybuffer",
       cache: config?.cache ?? { ttl: 24 * 60 * 60 * 1000 },
     });
@@ -493,7 +476,7 @@ export default class Client {
     if (session.error || !session.data.cape) return null;
 
     const fetchResponse = await this.axios.get(session.data.cape.url, {
-      id: this.getCapeBufferCacheKey(session.data.cape.hash),
+      id: this.getCacheKey("cape", session.data.cape.hash, true),
       responseType: "arraybuffer",
       cache: config?.cache ?? { ttl: 30 * 24 * 60 * 60 * 1000 },
     });
