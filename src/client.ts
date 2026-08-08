@@ -436,13 +436,26 @@ export default class Client {
     const session = await this.getSession(player, config);
     if (session.error || !session.data.skin) return null;
 
-    const fetchResponse = await this.axios.get(session.data.skin.url, {
-      id: this.getCacheKey("skin", player),
-      responseType: "arraybuffer",
-      cache: config?.cache ?? { ttl: 24 * 60 * 60 * 1000 },
-    });
+    try {
+      const fetchResponse = await this.axios.get(session.data.skin.url, {
+        id: this.getCacheKey("skin", player),
+        responseType: "arraybuffer",
+        cache: config?.cache ?? { ttl: 24 * 60 * 60 * 1000 },
+      });
 
-    return Buffer.from(fetchResponse.data);
+      return Buffer.from(fetchResponse.data);
+    } catch (err) {
+      if (isAxiosError(err)) {
+        this.logger.error(
+          "Mowojang",
+          `An Error occured whilst trying to fetch Skin Texture for ${player}`,
+          err.request.internalId,
+        );
+        this.logger.info("Mowojang", `Check Status of Mojang Textures API on: https://mowojang-status.pixelic.dev`);
+        return null;
+      }
+      return null;
+    }
   }
 
   /**
@@ -475,12 +488,25 @@ export default class Client {
     const session = await this.getSession(player, config);
     if (session.error || !session.data.cape) return null;
 
-    const fetchResponse = await this.axios.get(session.data.cape.url, {
-      id: this.getCacheKey("cape", session.data.cape.hash, true),
-      responseType: "arraybuffer",
-      cache: config?.cache ?? { ttl: 30 * 24 * 60 * 60 * 1000 },
-    });
+    try {
+      const fetchResponse = await this.axios.get(session.data.cape.url, {
+        id: this.getCacheKey("cape", session.data.cape.hash, true),
+        responseType: "arraybuffer",
+        cache: config?.cache ?? { ttl: 30 * 24 * 60 * 60 * 1000 },
+      });
 
-    return Buffer.from(fetchResponse.data);
+      return Buffer.from(fetchResponse.data);
+    } catch (err) {
+      if (isAxiosError(err)) {
+        this.logger.error(
+          "Mowojang",
+          `An Error occured whilst trying to fetch Cape Texture for ${player}`,
+          err.request.internalId,
+        );
+        this.logger.info("Mowojang", `Check Status of Mojang Textures API on: https://mowojang-status.pixelic.dev`);
+        return null;
+      }
+      return null;
+    }
   }
 }
