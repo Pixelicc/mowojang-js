@@ -1,8 +1,18 @@
 import { Client as MowojangClient, utils, validate } from "../dist/index.js";
+import PackageJSON from "../package.json" with { type: "json" };
 import { describe, it } from "node:test";
 import * as assert from "node:assert";
 
 const Mowojang = new MowojangClient();
+
+describe("#version", function () {
+  it("Instance version should match package.json version", function () {
+    assert.strictEqual(Mowojang.version, PackageJSON.version);
+  });
+  it("Static version should match package.json version", function () {
+    assert.strictEqual(MowojangClient.version, PackageJSON.version);
+  });
+});
 
 describe("Utility Functions", { timeout: 1000 }, function () {
   describe("#dashUUID()", function () {
