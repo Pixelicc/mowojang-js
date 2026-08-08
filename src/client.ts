@@ -452,7 +452,6 @@ export default class Client {
           err.request.internalId,
         );
         this.logger.info("Mowojang", `Check Status of Mojang Textures API on: https://mowojang-status.pixelic.dev`);
-        return null;
       }
       return null;
     }
@@ -504,7 +503,6 @@ export default class Client {
           err.request.internalId,
         );
         this.logger.info("Mowojang", `Check Status of Mojang Textures API on: https://mowojang-status.pixelic.dev`);
-        return null;
       }
       return null;
     }
