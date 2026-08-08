@@ -160,6 +160,7 @@ export default class Client {
     try {
       if (this.axios.storage.get) {
         const value = await this.axios.storage.get(key);
+        if (!value) return false;
         return (
           (value.state === "cached" && "data" in value) || (allowStale && value.state === "stale" && "data" in value)
         );
