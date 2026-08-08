@@ -45,6 +45,8 @@ export interface ValidationOptions {
  *
  * WARNING: This is an API intended for very specific usecases.
  * Incorrect writes/deletes or clearing storage at the wrong time can break cache behavior or cause unexpected errors.
+ *
+ * @link https://github.com/Pixelicc/mowojang/blob/main/docs/custom-caching.md#internal-cache-access
  */
 export type MowojangCache = readonly {
   /** Clears the entire internal cache storage. */
