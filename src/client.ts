@@ -449,7 +449,8 @@ export default class Client {
         this.logger.error(
           "Mowojang",
           `An Error occured whilst trying to fetch Skin Texture for ${player}`,
-          err.request.internalId,
+          // @ts-expect-error
+          err.config.internalId as string,
         );
         this.logger.info("Mowojang", `Check Status of Mojang Textures API on: https://mowojang-status.pixelic.dev`);
       }
@@ -500,7 +501,8 @@ export default class Client {
         this.logger.error(
           "Mowojang",
           `An Error occured whilst trying to fetch Cape Texture for ${player}`,
-          err.request.internalId,
+          // @ts-expect-error
+          err.config.internalId as string,
         );
         this.logger.info("Mowojang", `Check Status of Mojang Textures API on: https://mowojang-status.pixelic.dev`);
       }
