@@ -58,7 +58,7 @@ export type MowojangCache = readonly {
   /** Deletes a raw internal cache entry by cache key. */
   readonly del: (key: string) => Promise<void>;
   /** Checks whether a cached value exists for a cache key. */
-  readonly has: (key: string) => Promise<boolean>;
+  readonly has: (key: string, allowStale?: boolean) => Promise<boolean>;
   /**
    * Direct reference to the internal axios-cache-interceptor storage instance.
    *

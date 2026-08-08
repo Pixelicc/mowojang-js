@@ -18,6 +18,7 @@ export default (options: AxiosOptions, logger: Logger): AxiosCacheInstance => {
     {
       methods: ["get", "post"],
       cacheTakeover: false,
+      staleIfError: 300,
       ...options?.cache,
     },
   );
