@@ -18,7 +18,9 @@ export default (options: AxiosOptions, logger: Logger): AxiosCacheInstance => {
     {
       methods: ["get", "post"],
       cacheTakeover: false,
-      staleIfError: 300,
+      cachePredicate: {
+        statusCheck: (status) => status === 200 || status === 404,
+      },
       ...options?.cache,
     },
   );
