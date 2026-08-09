@@ -10,6 +10,7 @@ export default (options: AxiosOptions, logger: Logger): AxiosCacheInstance => {
     axios.create({
       timeout: options?.timeout ?? 10000,
       maxRedirects: 0,
+      validateStatus: (status) => status === 200 || status === 404,
       headers: {
         "User-Agent": `axios/${axios.VERSION} mowojang/${VERSION[0]} (https://www.npmjs.com/package/mowojang)`,
         Accept: "application/json",

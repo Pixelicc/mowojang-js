@@ -250,6 +250,10 @@ export default class Client {
         cache: config?.cache ?? { ttl: 60 * 60 * 1000 },
       });
 
+      if (fetchResponse.status === 404) {
+        return { data: null, error: "INVALID_PLAYER" };
+      }
+
       if (config?.cache !== false && (typeof config?.cache !== "object" || config.cache.enabled !== false)) {
         // @ts-expect-error
         const internalId = fetchResponse.config?.internalId as string;
