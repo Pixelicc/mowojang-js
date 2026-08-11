@@ -5,7 +5,7 @@ import * as assert from "node:assert";
 
 const Mowojang = new MowojangClient();
 
-describe("#version", function () {
+describe("Version Attributes", function () {
   it("Instance version should match package.json version", function () {
     assert.strictEqual(Mowojang.version, PackageJSON.version);
   });
@@ -84,7 +84,7 @@ describe("Validator Functions", { timeout: 1000 }, function () {
   });
 });
 
-describe("Functions", { timeout: 60000 }, function () {
+describe("Methods", { timeout: 60000 }, function () {
   describe("#getUUID", function () {
     it("Should convert an Minecraft Username to its UUIDv4 String", async function () {
       const UUID = await Mowojang.getUUID("Pixelic");
@@ -238,7 +238,10 @@ describe("Functions", { timeout: 60000 }, function () {
       assert.strictEqual(session.error, "INVALID_PLAYER");
     });
   });
-  describe("#cache.has", function () {
+});
+
+describe("Cache Methods", { timeout: 1000 }, function () {
+  describe("#cache.get", function () {
     it("Should return true for profile:username:pixelic", async function () {
       const result = await Mowojang.cache.has("profile:username:pixelic");
       assert.ok(result);
